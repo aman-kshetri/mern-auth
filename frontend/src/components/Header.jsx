@@ -1,13 +1,16 @@
-import React from 'react'
+import React, { useContext } from 'react'
 import { assets } from '../assets/assets'
+import { AppContent } from '../context/AppContext'
 
 const Header = () => {
+
+  const {userData} = useContext(AppContent)
   return (
     <div className=''>
         
         <img src={assets.header_img} alt="" />
         
-        <h1>Hey Developer 
+        <h1>Hey {userData ? userData.name : 'Developer'}! 
             <img className='' src={assets.hand_wave} alt="" />
         </h1>
         
