@@ -1,8 +1,11 @@
-import { createContext, useState } from "react";
+import { createContext, useEffect, useState } from "react";
+import axios from "axios";
 
 export const AppContent = createContext();
 
 export const AppContextProvider = (props) => {
+
+    axios.defaults.withCredentials = true;
 
     const backendUrl = import.meta.env.VITE_BACKEND_URL
     const [isLoggedin, setIsLoggedin] = useState(false)
@@ -16,7 +19,7 @@ export const AppContextProvider = (props) => {
                 getUserData()
             }
         } catch (error) {
-            toast.error(data.message)
+            toast.error(error.message)
         }
     }
 
@@ -28,6 +31,10 @@ export const AppContextProvider = (props) => {
             toast.error(error.message)            
         }
     }
+
+    useEffect(()=> {
+        getAuthState()
+    }, [])
 
     const value = {
         backendUrl,
