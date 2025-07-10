@@ -14,7 +14,7 @@ const Navbar = () => {
       try {
         axios.defaults.withCredentials = true;
 
-        const {data} = await axios.post(backendUrl + '/api/auth/sendVerifyOtp')
+        const {data} = await axios.post(`${backendUrl}/api/auth/send-verify-otp`)
         if (data.success) {
           navigate('/email-verify')
           toast.success(data.message)
@@ -29,7 +29,7 @@ const Navbar = () => {
     const logout = async ()=>{
       try {
         axios.defaults.withCredentials = true;
-        const {data} = await axios.post(backendUrl+ '/api/auth/logout')
+        const {data} = await axios.post(`${backendUrl}/api/auth/logout`)
         data.success && setIsLoggedin(false)
         data.success && setUserData(false)
         navigate('/')
@@ -44,16 +44,21 @@ const Navbar = () => {
       <img src={assets.logo} alt="" className="w-28 sm:w-32" />
 
       {userData ? (
-        <div>{userData.name[0].toUpperCase()}
-          <ul>
-            {!userData.isAccountVerified && 
-            <li onClick={sendVerificationOtp}>Verify Email</li>}
+        <div className="w-8 h-8 flex justify-center items-center rounded-full bg-black text-white relative group">
+          {userData.name[0].toUpperCase()}
 
-            <li onClick={logout}>Logout</li>
+          <div className="absolute hidden group-hover:block top-0 right-0 z-10 text-black rounded pt-10">
+          <ul className="list-none m-0 p-2 bg-gray-100 text-sm">
+            {!userData.isAccountVerified && 
+            <li onClick={sendVerificationOtp} className="py-1 px-2 hover:bg-gray-200 cursor-pointer">Verify Email</li>
+            }
+
+            <li onClick={logout} className="py-1 px-2 hover:bg-gray-200 cursor-pointer pr-10">Logout</li>
           </ul>
+          </div>
         </div>
       ) : (
-        <button onClick={() => navigate("/login")} className="">
+        <button onClick={() => navigate("/login")} className="flex items-center gap-2 border border-gray-500 rounded-full px-6 py-2 text-gray-800 hover:bg-gray-100 transition-all">
           Login <img src={assets.arrow_icon} alt="" />{" "}
         </button>
       )}
