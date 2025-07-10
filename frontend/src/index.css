@@ -10,4 +10,6 @@
 /* Apply global font style */
 * {
   font-family: var(--font-sans);
+
+  
 }
