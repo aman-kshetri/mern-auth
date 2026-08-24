@@ -132,5 +132,4 @@ Base URL: `http://localhost:4000`
 
 - Auth state is cookie-based (`token` cookie).
 - CORS is currently configured for `http://localhost:5173`.
-README.md
 
