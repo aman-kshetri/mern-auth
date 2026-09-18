@@ -31,3 +31,6 @@ env.local
 /frontend/.env
 mern-auth/backend/.env
 mern-auth/frontend/.env
+
+// Ignore test files
+.venv

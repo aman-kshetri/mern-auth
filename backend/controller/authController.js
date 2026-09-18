@@ -69,13 +69,13 @@ export const login = async (req, res) => {
         // Find user by email
         const user = await userModel.findOne({ email });
         if (!user) {
-            return res.json({ success: false, message: 'Invalid email' });
+            return res.json({ success: false, message: 'Invalid credentials' });
         }
 
         // Compare input password with stored hash
         const isMatch = await bcrypt.compare(password, user.password);
         if (!isMatch) {
-            return res.json({ success: false, message: 'Invalid password' });
+            return res.json({ success: false, message: 'Invalid credentials' });
         }
 
         // Generate JWT
