@@ -34,3 +34,5 @@ mern-auth/frontend/.env
 
 // Ignore test files
 .venv
+venv
+qa/venv
