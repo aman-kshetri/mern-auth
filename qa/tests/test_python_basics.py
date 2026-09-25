@@ -1,13 +1,8 @@
-def test_user_data():
-    user = {
-        "name": "Test User",
-        "email": "test@example.com",
-        "password": "Password123"
-    }
+def test_user_data(test_user):
 
-    assert user["name"] == "Test User"
-    assert user["email"] == "test@example.com"
-    assert user["password"] == "Password123"
+    assert test_user["name"] == "Test Bahadur"
+    assert test_user["email"] == "test@example.com"
+    assert test_user["password"] == "Password123"
 
 
 def test_invalid_email_list():
