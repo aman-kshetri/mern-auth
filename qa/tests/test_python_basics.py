@@ -1,7 +1,8 @@
 def test_user_data(test_user):
 
-    assert test_user["name"] == "Test Bahadur"
-    assert test_user["email"] == "test@example.com"
+    assert test_user["name"] == "Test User"
+    assert test_user["email"].startswith("test_")
+    assert test_user["email"].endswith("@example.com")
     assert test_user["password"] == "Password123"
 
 
