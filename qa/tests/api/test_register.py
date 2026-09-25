@@ -1,12 +1,11 @@
 import requests
 
-
 BASE_URL = "http://localhost:4000"
 
 # Missing name during registration
-def test_register_missing_name():
+def test_register_missing_name(base_url, test_user):
     response = requests.post(
-        f"{BASE_URL}/api/auth/register",
+        f"{base_url}/api/auth/register",
         json={
             "email": "test@example.com",
             "password": "Password123"
