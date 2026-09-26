@@ -4,14 +4,15 @@ class APIClient:
 
     def __init__ (self, base_url):
         self.base_url = base_url
+        self.session = requests.Session()
 
     def get(self, endpoint):
-        return requests.get(
+        return self.session.get(
             f"{self.base_url}{endpoint}"
         )
 
     def post(self, endpoint, data=None):
-        return requests.post(
+        return self.session.post(
             f"{self.base_url}{endpoint}",
             json=data
         )
