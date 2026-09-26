@@ -140,3 +140,20 @@ def test_register_short_password(api_client):
 
     assert response.status_code == 200
     assert data["success"] is False
+
+# Test for unexpected extra fields during registration
+def test_register_with_extra_field(api_client):
+    payload = {
+        "name": "Test User",
+        "email": "extra@example.com",
+        "password": "Password123",
+        "unexpectedField": "some value"
+    }
+
+    response = api_client.post(
+        "/api/auth/register",
+        payload
+    )
+
+    assert response.status_code == 200
+    assert response.json()["success"] is True
