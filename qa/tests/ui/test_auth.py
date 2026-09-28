@@ -79,3 +79,27 @@ def test_logout(page: Page):
 
     # Verify user is logged out
     expect(page.get_by_role("button", name="Login")).to_be_visible()
+
+def test_logout(page: Page, registered_user):
+    # User is already registered and logged in by the fixture
+    expect(page).to_have_url("http://localhost:5173/")
+    expect(
+        page.get_by_text(f"Hey {registered_user['name']}!")
+    ).to_be_visible()
+
+    # Locate the avatar
+    avatar = page.locator("div.group")
+
+    # Hover to reveal the menu
+    avatar.hover()
+
+    # Verify Logout is visible
+    expect(page.get_by_text("Logout", exact=True)).to_be_visible()
+
+    # Click Logout
+    page.get_by_text("Logout", exact=True).click()
+
+    # Verify logged-out state
+    expect(
+        page.get_by_role("button", name="Login")
+    ).to_be_visible()
