@@ -7,28 +7,32 @@ class LoginPage:
         self.full_name_input = page.get_by_placeholder("Full name")
         self.email_input = page.get_by_placeholder("Email id")
         self.password_input = page.get_by_placeholder("Password")
+        self.signup_button = page.get_by_role("button", name="Sign Up")
+        self.login_here_link = page.get_by_text("Login here", exact=True)
 
-        self.signup_button = page.get_by_role(
-            "button",
-            name="Sign Up"
-        )
+        self.login_button = page.get_by_role("button", name="Login")
+        self.forgot_password_link = page.get_by_text("Forgot password?", exact=True)
+        self.signup_link = page.get_by_text("Sign Up", exact=True)
 
-        self.login_button = page.get_by_role(
-            "button",
-            name="Login"
-        )
+    def open(self):
+        self.page.goto("http://localhost:5173/login")
 
-        self.login_here_link = page.get_by_text(
-            "Login here",
-            exact=True
-        )
+    def switch_to_login(self):
+        self.login_here_link.click()
 
-        self.signup_link = page.get_by_text(
-            "Sign Up",
-            exact=True
-        )
+    def switch_to_signup(self):
+        self.signup_link.click()
 
-        self.forgot_password_link = page.get_by_text(
-            "Forgot password?",
-            exact=True
-        )
+    def register(self, name, email, password):
+        self.full_name_input.fill(name)
+        self.email_input.fill(email)
+        self.password_input.fill(password)
+        self.signup_button.click()
+
+    def login(self, email, password):
+        self.email_input.fill(email)
+        self.password_input.fill(password)
+        self.login_button.click()
+
+    def click_forgot_password(self):
+        self.forgot_password_link.click()
