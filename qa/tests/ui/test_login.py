@@ -1,10 +1,11 @@
 from playwright.sync_api import Page, expect
+from pages.login_page import LoginPage
 
 # Test if login page loads correctly
 def test_login_page_loads(page: Page):
-    page.goto("http://localhost:5173/login")
+    login_page = LoginPage(page)
 
-    expect(page).to_have_url("http://localhost:5173/login")
+    login_page.open()
 
     expect(
         page.get_by_role("heading", name="Create account")
@@ -32,9 +33,10 @@ def test_login_page_loads(page: Page):
 
 # Switch from Sign Up to Login
 def test_switch_to_login(page: Page):
-    page.goto("http://localhost:5173/login")
+    login_page = LoginPage(page)
 
-    page.get_by_text("Login here", exact=True).click()
+    login_page.open()
+    login_page.switch_to_login()
 
     expect(
         page.get_by_role("heading", name="Login")
@@ -58,18 +60,17 @@ def test_switch_to_login(page: Page):
 
 # Switch Login back to Sign Up
 def test_switch_login_back_to_signup(page: Page):
-    page.goto("http://localhost:5173/login")
+    login_page = LoginPage(page)
 
-    # Initial state is Sign Up
-    page.get_by_text("Login here", exact=True).click()
+    login_page.open()
 
-    # Now Login state
+    login_page.switch_to_login()
+
     expect(
         page.get_by_role("heading", name="Login")
     ).to_be_visible()
 
-    # Switch back
-    page.get_by_text("Sign Up", exact=True).click()
+    login_page.switch_to_signup()
 
     expect(
         page.get_by_role("heading", name="Create account")
@@ -85,20 +86,23 @@ def test_switch_login_back_to_signup(page: Page):
 
 # Forgot password navigation
 def test_forgot_password_navigation(page: Page):
-    page.goto("http://localhost:5173/login")
+    login_page = LoginPage(page)
 
-    page.get_by_text("Forgot password?", exact=True).click()
+    login_page.open()
+    login_page.click_forgot_password()
 
-    expect(page).to_have_url(
-        "http://localhost:5173/reset-password"
-    )
+    expect(
+        page
+    ).to_have_url("http://localhost:5173/reset-password")
 
     expect(
         page.get_by_role("heading", name="Reset password")
     ).to_be_visible()
 
     expect(
-        page.get_by_text("Enter your registered email address")
+        page.get_by_text(
+            "Enter your registered email address"
+        )
     ).to_be_visible()
 
     expect(
