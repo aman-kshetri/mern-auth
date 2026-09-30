@@ -6,30 +6,7 @@ def test_login_page_loads(page: Page):
     login_page = LoginPage(page)
 
     login_page.open()
-
-    expect(
-        page.get_by_role("heading", name="Create account")
-    ).to_be_visible()
-
-    expect(
-        page.get_by_text("Create your account")
-    ).to_be_visible()
-
-    expect(
-        page.get_by_placeholder("Full name")
-    ).to_be_visible()
-
-    expect(
-        page.get_by_placeholder("Email id")
-    ).to_be_visible()
-
-    expect(
-        page.get_by_placeholder("Password")
-    ).to_be_visible()
-
-    expect(
-        page.get_by_role("button", name="Sign Up")
-    ).to_be_visible()
+    login_page.expect_signup_form_visible()
 
 # Switch from Sign Up to Login
 def test_switch_to_login(page: Page):
@@ -37,26 +14,7 @@ def test_switch_to_login(page: Page):
 
     login_page.open()
     login_page.switch_to_login()
-
-    expect(
-        page.get_by_role("heading", name="Login")
-    ).to_be_visible()
-
-    expect(
-        page.get_by_text("Login to your account!")
-    ).to_be_visible()
-
-    expect(
-        page.get_by_placeholder("Email id")
-    ).to_be_visible()
-
-    expect(
-        page.get_by_placeholder("Password")
-    ).to_be_visible()
-
-    expect(
-        page.get_by_role("button", name="Login")
-    ).to_be_visible()
+    login_page.expect_login_form_visible()
 
 # Switch Login back to Sign Up
 def test_switch_login_back_to_signup(page: Page):

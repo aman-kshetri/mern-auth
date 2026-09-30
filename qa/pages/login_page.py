@@ -1,4 +1,4 @@
-from playwright.sync_api import Page
+from playwright.sync_api import Page, expect
 
 class LoginPage:
     def __init__(self, page: Page):
@@ -36,3 +36,40 @@ class LoginPage:
 
     def click_forgot_password(self):
         self.forgot_password_link.click()
+
+    def expect_signup_form_visible(self):
+        expect(
+            self.page.get_by_role(
+                "heading",
+                name="Create account"
+            )
+        ).to_be_visible()
+
+        expect(
+            self.page.get_by_text(
+                "Create your account"
+            )
+        ).to_be_visible()
+
+        expect(self.full_name_input).to_be_visible()
+        expect(self.email_input).to_be_visible()
+        expect(self.password_input).to_be_visible()
+        expect(self.signup_button).to_be_visible()
+
+    def expect_login_form_visible(self):
+        expect(
+            self.page.get_by_role(
+                "heading",
+                name="Login"
+            )
+        ).to_be_visible()
+
+        expect(
+            self.page.get_by_text(
+                "Login to your account!"
+            )
+        ).to_be_visible()
+
+        expect(self.email_input).to_be_visible()
+        expect(self.password_input).to_be_visible()
+        expect(self.login_button).to_be_visible()
