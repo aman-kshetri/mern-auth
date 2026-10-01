@@ -36,3 +36,10 @@ mern-auth/frontend/.env
 .venv
 venv
 qa/venv
+
+
+node_modules/
+.env
+playwright-report/
+test-results/
+blob-report/
