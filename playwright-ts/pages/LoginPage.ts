@@ -26,26 +26,32 @@ export class LoginPage {
     await this.page.goto("/login");
   }
 
-  async expectPageLoaded() {
+  async expectSignUpPage() {
     await expect(
-      this.page.getByRole("heading", { name: "Create account" }),
+      this.page.getByRole('heading', {
+        name: 'Create account',
+      })
     ).toBeVisible();
+    await expect(this.nameInput).toBeVisible();
+  }
+
+  async expectLoginPage() {
+    await expect(
+      this.page.getByRole('heading', {
+        name: 'Login',
+      })
+    ).toBeVisible();
+    await expect(this.nameInput).not.toBeVisible();
   }
 
   async switchToLogin() {
     await this.loginHere.click();
-
-    await expect(
-      this.page.getByRole("heading", { name: "Login" }),
-    ).toBeVisible();
+    await this.expectLoginPage();
   }
 
-  async switchToSipnup() {
+  async switchToSignup() {
     await this.signupLink.click();
-
-    await expect(
-        this.page.getByRole("heading", { name: "Create account"})
-    ).toBeVisible();
+    await this.expectSignUpPage();
   }
 
   async register(
@@ -70,7 +76,13 @@ export class LoginPage {
     await this.submitButton.click()
   }
 
-  async gotoForgotPassword() {
+  async gotoResetPassword() {
     await this.forgotPassword.click();
+  }
+
+  async expectToast(message: string) {
+    await expect(
+      this.page.getByText(message)
+    ).toBeVisible();
   }
 }

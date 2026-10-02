@@ -25,7 +25,7 @@ test.describe('Login Page', () => {
         const loginPage = new LoginPage(page);
         await loginPage.goto();
         await loginPage.switchToLogin();
-        await loginPage.switchToSipnup();
+        await loginPage.switchToSignup();
 
         await expect(
             page.getByRole('heading', { name: 'Create account' })
