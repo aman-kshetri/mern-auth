@@ -1,4 +1,4 @@
-export const generteTestUser = () => {
+export const generateTestUser = () => {
     const timestamp = Date.now();
 
     return {
