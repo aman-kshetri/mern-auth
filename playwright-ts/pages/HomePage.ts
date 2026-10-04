@@ -21,8 +21,9 @@ export class HomePage {
   }
 
   async expectLoggedOut() {
-    await expect(this.loginButton).toBeVisible();
-  }
+  await expect(this.loginButton).toBeVisible();
+  await expect(this.logoutButton).not.toBeVisible();
+}
 
   async expectLoggedIn() {
     await expect(this.page.getByText(/Hey/i)).toBeVisible();

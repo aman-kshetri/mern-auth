@@ -68,8 +68,8 @@ test.describe('Login Page', () => {
   await loginPage.switchToLogin();
 
   await loginPage.login(
-    'aman@gmail.com',
-    'Aman1234'
+    process.env.TEST_USER_EMAIL!,
+    process.env.TEST_USER_PASSWORD!
   );
 
   await expect(page).toHaveURL('/');
