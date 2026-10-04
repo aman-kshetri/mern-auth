@@ -67,4 +67,38 @@ test.describe("User Registration", () => {
 
     await expect(page).toHaveURL("/login");
   });
+
+  test('should reject registration with an existing email', async ({ page }) => {
+  const loginPage = new LoginPage(page);
+
+  const user = generateTestUser();
+
+  await loginPage.goto();
+
+  // First registration
+  await loginPage.register(
+    user.username,
+    user.email,
+    user.password
+  );
+
+  await expect(page).toHaveURL('/');
+
+  // Return to registration page
+  await page.goto('/login');
+
+  // Login page starts in Sign Up mode
+  await loginPage.expectSignUpPage();
+
+  // Try registering the same email
+  await loginPage.register(
+    'Another User',
+    user.email,
+    user.password
+  );
+
+  await loginPage.expectToast(
+    'User already exists'
+  );
+});
 });
