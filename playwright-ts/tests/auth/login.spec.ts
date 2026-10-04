@@ -31,4 +31,51 @@ test.describe('Login Page', () => {
             page.getByRole('heading', { name: 'Create account' })
         ).toBeVisible();
     });
-})
+
+    test('should show error for invalid credentials', async ({ page }) => {
+    const loginPage = new LoginPage(page);
+
+    await loginPage.goto();
+    await loginPage.switchToLogin();
+
+    await loginPage.login(
+      'wrong@example.com',
+      'WrongPassword123'
+    );
+
+    await loginPage.expectToast('Invalid credentials');
+
+    await expect(page).toHaveURL('/login');
+  });
+
+  test('should require email and password', async ({ page }) => {
+    const loginPage = new LoginPage(page);
+
+    await loginPage.goto();
+    await loginPage.switchToLogin();
+
+    await loginPage.submitButton.click();
+
+    await expect(loginPage.emailInput).toBeVisible();
+    await expect(loginPage.passwordInput).toBeVisible();
+    await expect(page).toHaveURL('/login');
+  });
+
+  test('should login successfully', async ({ page }) => {
+  const loginPage = new LoginPage(page);
+
+  await loginPage.goto();
+  await loginPage.switchToLogin();
+
+  await loginPage.login(
+    'aman@gmail.com',
+    'Aman1234'
+  );
+
+  await expect(page).toHaveURL('/');
+
+  await expect(
+    page.getByText(/Hey/i)
+  ).toBeVisible();
+});
+});
