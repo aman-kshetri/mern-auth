@@ -118,7 +118,7 @@ test.describe('Password Reset', () => {
     await resetPage.verifyOtp();
 
     // Important:
-    // Your current frontend does NOT call the backend
+    // Our current frontend does NOT call the backend
     // when "Verify email" is clicked.
     //
     // It only saves the OTP and moves to the
