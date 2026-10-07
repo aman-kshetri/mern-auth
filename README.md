@@ -66,10 +66,15 @@ cd ../frontend && npm install
 
 ### 2) Configure environment variables
 
-Create these files:
+Copy the example files and replace the placeholder values:
 
-- `backend/.env`
-- `frontend/.env`
+```bash
+cp backend/.env.example backend/.env
+cp frontend/.env.example frontend/.env
+cp playwright-ts/.env.example playwright-ts/.env
+```
+
+The Playwright environment file is only needed when running the automated tests.
 
 #### Backend `.env`
 
@@ -132,4 +137,3 @@ Base URL: `http://localhost:4000`
 
 - Auth state is cookie-based (`token` cookie).
 - CORS is currently configured for `http://localhost:5173`.
-
