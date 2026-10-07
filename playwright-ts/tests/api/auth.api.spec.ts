@@ -162,4 +162,79 @@ test.describe('Auth API', () => {
   expect(body.message).toBe('Registration successful');
 });
 
+test('should login successfully', async ({
+  request,
+}) => {
+  const api = new APIClient(
+    request,
+    process.env.API_URL!
+  );
+
+  const response = await api.Login(
+    process.env.TEST_USER_EMAIL!,
+    process.env.TEST_USER_PASSWORD!
+  );
+
+  expect(response.status()).toBe(200);
+
+  const body = await response.json();
+
+  expect(body.success).toBe(true);
+  expect(body.message).toBe('Login successful');
+});
+
+test('should authenticate after successful login', async ({
+  request,
+}) => {
+  const api = new APIClient(
+    request,
+    process.env.API_URL!
+  );
+
+  const loginResponse = await api.Login(
+    process.env.TEST_USER_EMAIL!,
+    process.env.TEST_USER_PASSWORD!
+  );
+
+  expect(loginResponse.status()).toBe(200);
+
+  const loginBody = await loginResponse.json();
+
+  expect(loginBody.success).toBe(true);
+
+  const authResponse = await api.IsAuthenticated();
+
+  expect(authResponse.status()).toBe(200);
+
+  const authBody = await authResponse.json();
+
+  expect(authBody.success).toBe(true);
+  expect(authBody.message).toBe(
+    'User is authenticated'
+  );
+});
+
+test('should logout successfully', async ({
+  request,
+}) => {
+  const api = new APIClient(
+    request,
+    process.env.API_URL!
+  );
+
+  await api.Login(
+    process.env.TEST_USER_EMAIL!,
+    process.env.TEST_USER_PASSWORD!
+  );
+
+  const logoutResponse = await api.Logout();
+
+  expect(logoutResponse.status()).toBe(200);
+
+  const logoutBody = await logoutResponse.json();
+
+  expect(logoutBody.success).toBe(true);
+  expect(logoutBody.message).toBe('Logged out');
+});
+
 });
