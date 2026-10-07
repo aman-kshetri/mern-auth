@@ -237,4 +237,121 @@ test('should logout successfully', async ({
   expect(logoutBody.message).toBe('Logged out');
 });
 
+test('should reject authenticated request after logout', async ({
+  request,
+}) => {
+  const api = new APIClient(
+    request,
+    process.env.API_URL!
+  );
+
+  await api.Login(
+    process.env.TEST_USER_EMAIL!,
+    process.env.TEST_USER_PASSWORD!
+  );
+
+  const beforeLogout = await api.IsAuthenticated();
+
+  expect(beforeLogout.status()).toBe(200);
+
+  const beforeBody = await beforeLogout.json();
+
+  expect(beforeBody.success).toBe(true);
+
+  await api.Logout();
+
+  const afterLogout = await api.IsAuthenticated();
+
+  expect(afterLogout.status()).toBe(200);
+
+  const afterBody = await afterLogout.json();
+
+  expect(afterBody.success).toBe(false);
+  expect(afterBody.message).toBe(
+    'Not authorized. Login again'
+  );
+});
+
+test('should reject verification OTP request without authentication', async ({
+  request,
+}) => {
+  const api = new APIClient(
+    request,
+    process.env.API_URL!
+  );
+
+  const response = await api.SendVerificationOtp();
+
+  expect(response.status()).toBe(200);
+
+  const body = await response.json();
+
+  expect(body.success).toBe(false);
+  expect(body.message).toBe(
+    'Not authorized. Login again'
+  );
+});
+
+test('should reject an invalid email verification OTP', async ({
+  request,
+}) => {
+  const api = new APIClient(
+    request,
+    process.env.API_URL!
+  );
+
+  const loginResponse = await api.Login(
+    process.env.TEST_USER_EMAIL!,
+    process.env.TEST_USER_PASSWORD!
+  );
+
+  expect(loginResponse.status()).toBe(200);
+
+  const loginBody = await loginResponse.json();
+
+  expect(loginBody.success).toBe(true);
+
+  const response = await api.VerifyEmail(
+    '000000'
+  );
+
+  expect(response.status()).toBe(200);
+
+  const body = await response.json();
+
+  expect(body.success).toBe(false);
+  expect(body.message).toBe('Invalid OTP');
+});
+
+test('should send email verification OTP for an authenticated user', async ({
+  request,
+}) => {
+  const api = new APIClient(
+    request,
+    process.env.API_URL!
+  );
+
+  const loginResponse = await api.Login(
+    process.env.TEST_USER_EMAIL!,
+    process.env.TEST_USER_PASSWORD!
+  );
+
+  expect(loginResponse.status()).toBe(200);
+
+  const loginBody = await loginResponse.json();
+
+  expect(loginBody.success).toBe(true);
+
+  const response = await api.SendVerificationOtp();
+
+  expect(response.status()).toBe(200);
+
+  const body = await response.json();
+
+  expect(body.success).toBe(true);
+  expect(body.message).toBe(
+    'Verification OTP sent on Email'
+  );
+});
+
 });
